@@ -1,30 +1,3 @@
-// import { config } from "dotenv"
-// config()
-
-// import { Configuration, OpenAIApi } from "openai"
-// import readline from "readline"
-
-// const openAi = new OpenAIApi(
-//   new Configuration({
-//     apiKey: process.env.OPEN_AI_API_KEY,
-//   })
-// )
-
-// const userInterface = readline.createInterface({
-//   input: process.stdin,
-//   output: process.stdout,
-// })
-
-// userInterface.prompt()
-// userInterface.on("line", async input => {
-//   const response = await openAi.createChatCompletion({
-//     model: "gpt-3.5-turbo",
-//     messages: [{ role: "user", content: input }],
-//   })
-//   console.log(response.data.choices[0].message.content)
-//   userInterface.prompt()
-// })
-
 import { config } from "dotenv";
 config();
 
@@ -43,9 +16,6 @@ const userInterface = readline.createInterface({
 });
 
 
-
-
-
 // Preload messages
 let messages = [
   {role: "system", content: "Welcome to ChatGPT!"},
@@ -57,15 +27,20 @@ let messages = [
   // ... other preload messages or wait for the assistant's response
 ];
 
-await openAi.createChatCompletion({
+console.log("Initializing AI ...")
+
+const initial_response = await openAi.createChatCompletion({
   model: "gpt-3.5-turbo",
   messages: messages,  // Use the updated messages array.
 });
+console.log(initial_response.data.choices[0].message.content)
 
 userInterface.prompt();
 userInterface.on("line", async input => {
   // Add the user's input to the messages array.
   messages.push({ role: "user", content: input });
+
+  console.log("Outputting response ...")
 
   const response = await openAi.createChatCompletion({
     model: "gpt-3.5-turbo",

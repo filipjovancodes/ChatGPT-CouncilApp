@@ -13,7 +13,8 @@
     "dotenv": "^16.3.1",
     "install": "github:chatscope/chat-ui-kit-react",
     "npm": "^10.2.2",
-    "openai": "^3.3.0"
+    "openai": "^3.3.0",
+    "react-router-dom": "^6.18.0"
   },
   "description": ""
 }

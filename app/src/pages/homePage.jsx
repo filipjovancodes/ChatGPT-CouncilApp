@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth, provider, db } from '../firebase';
-import { signInWithPopup } from 'firebase/auth';
+import { auth, db } from '../firebase';
 import { collection, getDocs } from "firebase/firestore";
 
 const HomePage = () => {
@@ -23,7 +22,7 @@ const HomePage = () => {
 
       fetchChats();
     }
-  });
+  }, []);
 
   const handleStartNewChat = () => {
     navigate('/council-selection');

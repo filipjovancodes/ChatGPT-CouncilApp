@@ -7,20 +7,22 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/homePage'; // Adjust the path to your actual HomePage file
 import ChatPage from './pages/chatPage';
 import CouncilSelectionPage from './pages/councilSelectionPage';
-import AuthStateChangedWrapper from './backend/authStateChangedWrapper'; // Make sure the path is correct
+import AuthProvider from './backend/authProvider'; // Make sure the path is correct
+import LoginPage from './pages/loginPage'
 
 const App = () => {
 
   return (
     <BrowserRouter>
       <div className="App">
-        <AuthStateChangedWrapper>
+        <AuthProvider>
           <Routes>
-            <Route path="/home-page" element={ <HomePage /> } />
-            <Route path="/council-selection" element={ <CouncilSelectionPage /> } />
-            <Route path="/chat/:chatId" element={ <ChatPage /> } />
+            <Route path="/login" element={< LoginPage />}/>
+            <Route path="/home-page" element={< HomePage />} />
+            <Route path="/council-selection" element={< CouncilSelectionPage />} />
+            <Route path="/chat/:chatId" element={< ChatPage />} />
           </Routes>
-        </AuthStateChangedWrapper>
+        </AuthProvider>
       </div>
     </BrowserRouter>
   );

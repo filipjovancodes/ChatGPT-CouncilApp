@@ -25,10 +25,6 @@ const HomePage = () => {
     }
   });
 
-  const signInWithGoogle = () => {
-    signInWithPopup(auth, provider)
-  };
-
   const handleStartNewChat = () => {
     navigate('/council-selection');
   };
@@ -41,23 +37,19 @@ const HomePage = () => {
   return (
     <div>
       {
-        auth.currentUser ? (
+        <div>
+          <button onClick={handleStartNewChat}>Start New Chat</button>
           <div>
-            <button onClick={handleStartNewChat}>Start New Chat</button>
-            <div>
-              <h2>Previous Chats</h2>
-              <ul>
-                {chats.map(chat => (
-                  <li key={chat.id} onClick={() => handleEnterChat(chat.id)}>
-                    {chat.name}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <h2>Previous Chats</h2>
+            <ul>
+              {chats.map(chat => (
+                <li key={chat.id} onClick={() => handleEnterChat(chat.id)}>
+                  {chat.name}
+                </li>
+              ))}
+            </ul>
           </div>
-        ) : (
-          <button onClick={signInWithGoogle}>Sign in with Google</button>
-        )
+        </div>
       }
     </div>
   );

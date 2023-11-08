@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebase'; // Adjust the path according to your structure
+import { useNavigate } from 'react-router-dom'; // Corrected import for useLocation
+import { auth } from '../firebase';
 
-const AuthStateChangedWrapper = ({ children }) => {
+const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -11,12 +11,15 @@ const AuthStateChangedWrapper = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setLoading(false);
       if (!user) {
-        navigate('/home-page')
+        navigate('/login');
       }
     });
 
     return () => unsubscribe(); // Unsubscribe on cleanup
   }, [navigate]);
+
+  // You would need to call `handleLogin` when the user successfully logs in.
+  // This could be in a login form component, where after successful login you call `handleLogin`.
 
   if (loading) {
     return <div>Loading...</div>;
@@ -25,4 +28,4 @@ const AuthStateChangedWrapper = ({ children }) => {
   return children;
 };
 
-export default AuthStateChangedWrapper;
+export default AuthProvider;

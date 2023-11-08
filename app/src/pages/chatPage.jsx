@@ -25,7 +25,6 @@ const ChatPage = () => {
   useEffect(() => {
     const waitLoadChat = async () => {
       const messages = await loadChat(chatId)
-      console.log(messages)
       setMessageList(messages)
     }
     if (auth.currentUser){

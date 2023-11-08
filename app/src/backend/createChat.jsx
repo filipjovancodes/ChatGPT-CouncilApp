@@ -12,7 +12,6 @@ export const createChat = async (chatName, councilMembers) => {
           name: chatName,
           createdAt: new Date(),
       });
-      console.log('Document written with ID: ', chatDocRef.id);
       
       const councilMemberString = councilMembers.join(", ");
       const initialMessage = {

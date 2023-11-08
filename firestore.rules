@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Match any document in the `users` collection
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // Sub-collection `chats` inside a user's document
+      match /chats/{chatId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+
+        // Sub-collection `messages` inside a chat document
+        match /messages/{messageId} {
+          allow read, write: if request.auth != null && request.auth.uid == userId;
+        }
+      }
+    }
+
+    // Add other collection rules here as needed
+
+  }
+}

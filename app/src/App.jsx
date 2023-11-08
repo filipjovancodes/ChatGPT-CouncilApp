@@ -1,30 +1,26 @@
-import { useState, useEffect }  from 'react';
+// App.jsx
+import { useState } from 'react';
 import './App.css';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
-import processMessageToChatGPT from './processMessage.js';
-import {
-  MainContainer,
-  ChatContainer,
-  MessageList,
-  Message,
-  MessageInput,
-  TypingIndicator,
-} from '@chatscope/chat-ui-kit-react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import ChatPage from './chatPage';
-import CouncilSelectionPage from './councilSelectionPage';
+import HomePage from './pages/homePage'; // Adjust the path to your actual HomePage file
+import ChatPage from './pages/chatPage';
+import CouncilSelectionPage from './pages/councilSelectionPage';
+import AuthStateChangedWrapper from './backend/authStateChangedWrapper'; // Make sure the path is correct
 
 const App = () => {
-  const [councilMembers, setCouncilMembers] = useState([]);
 
   return (
     <BrowserRouter>
       <div className="App">
-        <Routes>
-          <Route path="/" element={<CouncilSelectionPage setCouncilMembers={setCouncilMembers} />} />
-          <Route path="/chat" element={<ChatPage councilMembers={councilMembers} />} />
-        </Routes>
+        <AuthStateChangedWrapper>
+          <Routes>
+            <Route path="/home-page" element={ <HomePage /> } />
+            <Route path="/council-selection" element={ <CouncilSelectionPage /> } />
+            <Route path="/chat/:chatId" element={ <ChatPage /> } />
+          </Routes>
+        </AuthStateChangedWrapper>
       </div>
     </BrowserRouter>
   );

@@ -9,7 +9,13 @@ create a .env file at root direcotry with API key in format: VITE_OPEN_AI_API_KE
 
 https://rollbar.com/blog/how-to-integrate-chatgpt-with-react/
 
-npm install dotenv openai react-router-dom firebase
+npm install dotenv openai react-router-dom firebase firebase-tools
+npm install -D tailwindcss
+npx tailwindcss init
+
+firebase login
+firebase init
+firebase deploy
 
 # To start run the following command
 

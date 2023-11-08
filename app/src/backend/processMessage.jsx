@@ -1,6 +1,39 @@
+import { collection, addDoc } from "firebase/firestore";
+import { db, auth } from '../firebase';
 
 
 const OPEN_AI_API_KEY = import.meta.env.VITE_OPEN_AI_API_KEY
+
+const saveMessageToFirestore = async (newMessage, chatId) => {
+    try {
+        const userId = auth.currentUser.uid
+
+        await addDoc(collection(db, "users", userId, "chats", chatId, "messages"), {
+            text: newMessage.text,
+            sender: newMessage.sender,
+            createdAt: new Date(),
+        });    
+    } catch (error) {
+      console.error("Error writing document: ", error);
+    }
+};
+
+export const processMessages = async (messages, chatId) => {
+    try {
+      const response = await processMessageToChatGPT(messages);
+
+      const chatGPTResponse = {
+        text: response.choices[0]?.message?.content,
+        sender: "CouncilAI"
+      }
+      saveMessageToFirestore(messages[messages.length - 1], chatId)
+      saveMessageToFirestore(chatGPTResponse, chatId)
+
+      return chatGPTResponse
+    } catch (error) {
+      console.error("Error processing message:", error);
+    }
+}
 
 function waitOneSecond() {
     return new Promise(resolve => setTimeout(resolve, 1000));
@@ -14,7 +47,7 @@ const processMessageToChatGPT = async (chatMessages, currentRetry = 0) => {
 
         const apiMessages = chatMessages.map((messageObject) => {
             const role = messageObject.sender === "CouncilAI" ? "assistant" : "user";
-            return { role, content: messageObject.message };
+            return { role, content: messageObject.text };
         });
 
         const apiRequestBody = {
@@ -57,5 +90,3 @@ const processMessageToChatGPT = async (chatMessages, currentRetry = 0) => {
         }
     }
 };
-
-export default processMessageToChatGPT;

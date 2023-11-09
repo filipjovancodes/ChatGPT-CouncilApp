@@ -8,6 +8,7 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("running")
     if (auth.currentUser) {
       // Fetch the list of chats when the user is signed in
       const fetchChats = async () => {
